@@ -1,187 +1,105 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>玄機 · 六爻占卜</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #d4af37;
-    --gold-light: #f0d060;
-    --gold-dim: #8a6f1e;
-    --dark: #0a0806;
-    --dark-card: #110e08;
-    --dark-panel: #1a1408;
-    --dark-border: #2e2310;
-    --red-yang: #ff6b4a;
-    --blue-yin: #4aa8ff;
-    --purple-change: #c77dff;
-    --text-muted: #6b5a3a;
-    --text-body: #c8b078;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: "Noto Serif TC", serif;
-    background: var(--dark);
-    color: var(--text-body);
-    min-height: 100vh;
-    background-image: radial-gradient(ellipse at 20% 10%, rgba(212,175,55,0.04) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  .wrapper { max-width: 680px; margin: 0 auto; padding: 40px 20px; }
-  .header { text-align: center; padding: 40px 0; }
-  .header h1 { font-size: 42px; color: var(--gold); letter-spacing: 8px; text-shadow: 0 0 20px rgba(212,175,55,0.3); }
-
-  .card {
-    background: var(--dark-card);
-    border: 1px solid var(--dark-border);
-    border-radius: 16px;
-    padding: 28px;
-    margin-bottom: 20px;
-  }
-
-  .card-title { font-size: 11px; letter-spacing: 4px; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
-  .card-title::after { content: ''; flex: 1; height: 1px; background: var(--dark-border); }
-
-  .question-input {
-    width: 100%; background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: 10px;
-    padding: 16px 20px; color: var(--text-body); outline: none; min-height: 80px; font-family: inherit; font-size: 15px;
-  }
-
-  .coins-area { display: flex; justify-content: center; gap: 24px; margin: 20px 0; }
-  .coin {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #f0d060, #b8962d 60%, #7a5e10);
-    border: 2px solid var(--gold-dim); display: flex; align-items: center; justify-content: center;
-    font-size: 20px; color: var(--dark); font-weight: 900;
-  }
-
-  .toss-btn {
-    width: 100%; background: var(--gold-dim); border: none; border-radius: 10px; padding: 16px;
-    font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--dark); cursor: pointer;
-  }
-
-  .hexagram-visual { display: flex; flex-direction: column-reverse; gap: 10px; padding: 20px; background: var(--dark-panel); border-radius: 12px; margin: 16px 0; }
-  .hex-line { display: flex; align-items: center; gap: 12px; }
-  .hex-bars { flex: 1; display: flex; gap: 6px; height: 10px; }
-  .hex-bar { flex: 1; border-radius: 3px; }
-  .c-yang { background: var(--red-yang); }
-  .c-yin { background: var(--blue-yin); }
-  .c-old { background: var(--purple-change); }
-
-  .ai-btn { width: 100%; background: transparent; border: 1px solid var(--gold-dim); border-radius: 10px; padding: 16px; color: var(--gold); cursor: pointer; letter-spacing: 4px; }
-  .ai-output { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: 12px; padding: 24px; margin-top: 16px; display: none; line-height: 2; }
-  .ai-section { margin-bottom: 20px; }
-  .ai-section-title { font-size: 13px; color: var(--gold); border-bottom: 1px solid var(--dark-border); margin-bottom: 10px; padding-bottom: 5px; }
-  .ai-text { font-size: 15px; color: #a89060; }
-</style>
-</head>
-<body>
-
-<div class="wrapper">
-  <div class="header"><h1>玄 機</h1></div>
-
-  <div class="card">
-    <div class="card-title">☯ 心中所求</div>
-    <textarea class="question-input" id="questionInput" placeholder="請在此輸入您想請示的事情..."></textarea>
-  </div>
-
-  <div class="card">
-    <div class="coins-area">
-        <div class="coin" id="c1">？</div><div class="coin" id="c2">？</div><div class="coin" id="c3">？</div>
-    </div>
-    <button class="toss-btn" id="tossBtn" onclick="toss()">✦ 擲錢起卦</button>
-    <div id="status" style="text-align:center; margin-top:10px; font-size:12px; color:var(--text-muted);"></div>
-  </div>
-
-  <div class="card" id="hexCard" style="display:none;">
-    <div class="card-title">☰ 卦象呈現</div>
-    <div class="hexagram-visual" id="hexVisual"></div>
-    <button class="ai-btn" id="aiBtn" onclick="summon()">✦ 召喚玄機解析</button>
-  </div>
-
-  <div class="ai-output" id="aiOutput"></div>
-</div>
-
-<script>
-let lines = [];
-
-function toss() {
-  if(lines.length >= 6) return;
-  const q = document.getElementById('questionInput').value.trim();
-  if(!q) { alert("請先輸入問題。"); return; }
-
-  let heads = 0;
-  for(let i=0; i<3; i++) if(Math.random() > 0.5) heads++;
-  let type = heads===3?'old-yang':(heads===2?'yang':(heads===1?'yin':'old-yin'));
-  lines.push(type);
-  
-  document.getElementById('status').innerText = `已完成第 ${lines.length} 爻能量感應`;
-  render();
-  
-  if(lines.length === 6) {
-      document.getElementById('hexCard').style.display = 'block';
-      document.getElementById('tossBtn').disabled = true;
-  }
-}
-
-function render() {
-  const v = document.getElementById('hexVisual'); v.innerHTML = '';
-  lines.forEach(l => {
-    const row = document.createElement('div'); row.className = 'hex-line';
-    const bars = document.createElement('div'); bars.className = 'hex-bars';
-    const isYang = l.includes('yang');
-    const isOld = l.includes('old');
-    const colorClass = isOld ? 'c-old' : (isYang ? 'c-yang' : 'c-yin');
-    
-    if(isYang) {
-        bars.innerHTML = `<div class="hex-bar ${colorClass}"></div>`;
-    } else {
-        bars.innerHTML = `<div class="hex-bar ${colorClass}" style="flex:0.46"></div><div style="flex:0.08"></div><div class="hex-bar ${colorClass}" style="flex:0.46"></div>`;
-    }
-    row.appendChild(bars); v.appendChild(row);
-  });
-}
-
-function summon() {
-  const q = document.getElementById('questionInput').value;
-  const out = document.getElementById('aiOutput');
-  out.style.display = 'block';
-  out.innerHTML = "正在感應卦象能量...";
-  
-  setTimeout(() => {
-    // 獲取純數字機率，不再使用任何 HTML 標籤
-    const yangCount = lines.filter(l => l.includes('yang')).length;
-    const prob = Math.floor((yangCount * 14) + (Math.random() * 12) + 5);
-    const finalProb = prob > 98 ? 98 : prob;
-
-    let scenario = "您求問的事，目前局勢平穩。事情會朝向正確的方向發展，但請保持耐心。";
-    if(/情|愛|他|她/.test(q)) {
-        scenario = "關於這段緣分，目前處於相互觀望的階段。對方的態度尚在調整中，建議您保持平常心，順其自然。";
-    } else if(/錢|工作|事業/.test(q)) {
-        scenario = "事業方面，目前適合守成。雖然眼前有機會，但周遭環境仍有變數，多聽聽長輩意見再做決定。";
+    /* 卦象卡片的深度厚度感 */
+    .hex-card {
+      background: white;
+      border-radius: 28px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      margin-top: 20px;
+      border: 1px solid #f0f4f8;
     }
 
-    // 這裡徹底移除了所有 <span class="ai-highlight"> 標籤
-    const sections = [
-        { t: "✦ 長者斷語", c: "此事目前局勢平穩，仍需耐心等待。成事機率約 " + finalProb + "%。" },
-        { t: "✦ 情境感應", c: scenario },
-        { t: "✦ 長者叮嚀", c: "心誠則靈。這幾天請多讓心境保持平靜，答案自會浮現。" }
-    ];
+    .hexagram-panel {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      padding: 15px 0;
+    }
+
+    /* 陰陽爻的立體感設計 */
+    .yao-lines {
+      display: flex;
+      flex-direction: column-reverse; /* 由下往上排 */
+      gap: 8px;
+      width: 100px;
+    }
+
+    .yao {
+      height: 12px;
+      border-radius: 6px;
+      background: var(--dark-nav); /* 使用你 App 的深色主題 */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: 0.5s;
+    }
+
+    /* 陽爻：整條實線 */
+    .yang { width: 100%; }
+
+    /* 陰爻：中間斷開的虛線 */
+    .yin {
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      box-shadow: none;
+    }
+    .yin::before, .yin::after {
+      content: "";
+      width: 42%;
+      height: 100%;
+      background: var(--dark-nav);
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* 卦象文字資訊區 */
+    .hexagram-info {
+      flex: 1;
+    }
+
+    .hex-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--dark-nav);
+      margin-bottom: 5px;
+    }
+
+    .hex-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--primary-blue);
+      color: #000;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .hex-desc {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+  </style>
+
+  <div class="hex-card reveal" id="hexagramCard" style="display:none;">
+    <div class="section-label" style="font-size: 13px; color: #90a4ae; font-weight: bold; margin-bottom: 15px;">先天卦象解析</div>
     
-    out.innerHTML = sections.map(s => `
-        <div class="ai-section">
-            <div class="ai-section-title">${s.t}</div>
-            <div class="ai-text">${s.c}</div>
+    <div class="hexagram-panel">
+      <div class="yao-lines" id="yaoLines">
+        <div class="yao yang"></div>
+        <div class="yao yang"></div>
+        <div class="yao yang"></div>
+        <div class="yao yang"></div>
+        <div class="yao yang"></div>
+        <div class="yao yang"></div>
+      </div>
+
+      <div class="hexagram-info" id="hexagramInfo">
+        <div class="hex-name">乾為天</div>
+        <div class="hex-tag">元亨利貞</div>
+        <div class="hex-desc">
+          天行健，君子以自強不息。象徵極強的開創力與領導能量。
         </div>
-    `).join('');
-    out.scrollIntoView({behavior:'smooth'});
-  }, 1000);
-}
-</script>
-
-</body>
-</html>
+      </div>
+    </div>
+  </div>
