@@ -3,176 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>玄機 · 六爻占卜精準版</title>
+    <title>玄機 · 六爻感應占卜</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --dark: #0a0b06;
-            --panel: #1a1a0b;
-        }
-        body {
-            background-color: var(--dark);
-            color: #f0e68c;
-            font-family: 'Noto Serif TC', serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 500px;
-            width: 100%;
-            background: var(--panel);
-            padding: 25px;
-            border: 1px solid var(--gold);
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-        }
-        h1 { color: var(--gold); text-align: center; font-size: 24px; margin-bottom: 25px; }
-        input, button {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 6px;
-            border: 1px solid var(--gold);
-            box-sizing: border-box;
-        }
-        input { background: #2a2a1a; color: white; }
-        button {
-            background: var(--gold);
-            color: var(--dark);
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover { background: #f0d060; }
-        .result-area {
-            margin-top: 20px;
-            padding: 15px;
-            background: #252515;
-            border-left: 4px solid var(--gold);
-            line-height: 1.6;
-            white-space: pre-wrap;
-        }
-        .coin-display { text-align: center; font-size: 40px; margin: 15px 0; }
-        .history-table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-        .history-table th, .history-table td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: center;
-        }
+        :root { --gold: #d4af37; --dark: #0a0b06; --panel: #1a1a0b; --text: #f0e68c; }
+        body { background-color: var(--dark); color: var(--text); font-family: 'Noto Serif TC', serif; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .container { max-width: 500px; width: 100%; background: var(--panel); padding: 25px; border: 1px solid var(--gold); border-radius: 12px; box-shadow: 0 0 25px rgba(212,175,55,0.3); }
+        h1 { color: var(--gold); text-align: center; font-size: 26px; margin-bottom: 20px; letter-spacing: 4px; border-bottom: 1px solid var(--gold); padding-bottom: 10px; }
+        input, button { width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--gold); box-sizing: border-box; font-size: 16px; }
+        input { background: #1a1a0a; color: white; border: 1px solid #555; }
+        button { background: var(--gold); color: var(--dark); font-weight: bold; cursor: pointer; transition: 0.4s; text-transform: uppercase; }
+        button:hover { background: #f0e68c; box-shadow: 0 0 10px var(--gold); }
+        .coin-area { display: flex; justify-content: center; gap: 15px; margin: 25px 0; font-size: 50px; min-height: 70px; }
+        .status-bar { text-align: center; font-size: 14px; color: var(--gold); margin-bottom: 10px; opacity: 0.8; }
+        .result-box { margin-top: 30px; padding: 20px; background: #222212; border: 1px solid var(--gold); border-radius: 10px; display: none; line-height: 1.8; }
+        .history-list { width: 100%; margin-top: 20px; border-collapse: collapse; background: #000; border-radius: 8px; overflow: hidden; }
+        .history-list th { background: #333; color: var(--gold); padding: 10px; }
+        .history-list td { border: 1px solid #222; padding: 12px; text-align: center; font-size: 14px; }
+        .highlight { color: #fff; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>玄機 · 六爻占卜</h1>
+    <h1>玄機 · 誠心占卜</h1>
+    <input type="text" id="userQuestion" placeholder="請輸入您心中所求之事（例如：這段感情的走向？）">
     
-    <input type="text" id="question" placeholder="請輸入您想求問的事項（例如：這筆生意會成功嗎？）">
+    <div class="coin-area" id="visualCoins">🪙 🪙 🪙</div>
+    <div class="status-bar" id="tossStatus">心誠則靈，請擲杯六次</div>
     
-    <div class="coin-display" id="coinResult">🪙 🪙 🪙</div>
+    <button id="actionBtn" onclick="handleToss()">開始擲杯</button>
     
-    <button onclick="tossCoins()">擲杯卜卦（共六次）</button>
-    
-    <div id="status">剩餘次數：6</div>
-    
-    <table class="history-table" id="history">
-        <thead>
-            <tr>
-                <th>爻序</th>
-                <th>結果</th>
-                <th>陰陽</th>
-            </tr>
-        </thead>
-        <tbody id="historyBody"></tbody>
+    <table class="history-list">
+        <thead><tr><th>爻序</th><th>卦象結果</th><th>陰陽</th></tr></thead>
+        <tbody id="logBody"></tbody>
     </table>
 
-    <div class="result-area" id="aiAnalysis" style="display:none;">
-        <h3 style="color:var(--gold); margin-top:0;">AI 命理師評測：</h3>
-        <div id="aiContent">正在感應卦象中...</div>
+    <div class="result-box" id="analysisResult">
+        <h3 style="color:var(--gold); margin-top:0; border-bottom:1px solid #444;">長者解卦筆記：</h3>
+        <div id="finalText"></div>
     </div>
 </div>
 
 <script>
-    let tossCount = 0;
-    let hexagram = [];
-    const questionInput = document.getElementById('question');
+    let currentToss = 0;
+    let guaData = [];
 
-    async function tossCoins() {
-        if (!questionInput.value) {
-            alert("請先輸入您的問題，心誠則靈。");
-            return;
-        }
-        if (tossCount >= 6) return;
+    function handleToss() {
+        const q = document.getElementById('userQuestion').value;
+        if(!q) { alert("請先寫下您的問題。"); return; }
+        if(currentToss >= 6) return;
 
-        tossCount++;
-        let coins = [Math.random() > 0.5 ? 1 : 0, Math.random() > 0.5 ? 1 : 0, Math.random() > 0.5 ? 1 : 0];
-        let sum = coins.reduce((a, b) => a + b, 0);
+        currentToss++;
+        let c = [Math.random()>0.5?1:0, Math.random()>0.5?1:0, Math.random()>0.5?1:0];
+        let sum = c.reduce((a,b)=>a+b, 0);
         
-        // 3正為老陽(3), 0正為老陰(0), 2正為少陰(2), 1正為少陽(1)
-        let resultText = (sum === 3) ? "老陽 (X)" : (sum === 0) ? "老陰 (O)" : (sum === 2) ? "少陰" : "少陽";
-        let yinYang = (sum === 3 || sum === 1) ? "陽" : "陰";
+        let name = (sum===3)?"老陽(變)":(sum===0)?"老陰(變)":(sum===2)?"少陰":"少陽";
+        let type = (sum===3||sum===1)?"陽":"陰";
         
-        hexagram.push({sum, resultText});
+        guaData.push({sum, name, type});
 
-        // 顯示動畫與結果
-        document.getElementById('coinResult').innerText = coins.map(c => c ? "🟡" : "⚪").join(" ");
-        document.getElementById('status').innerText = `剩餘次數：${6 - tossCount}`;
+        document.getElementById('visualCoins').innerText = c.map(i=>i?"🟡":"⚪").join(" ");
+        document.getElementById('tossStatus').innerText = `已完成：${currentToss} / 6`;
 
-        let row = `<tr><td>第 ${tossCount} 爻</td><td>${resultText}</td><td>${yinYang}</td></tr>`;
-        document.getElementById('historyBody').innerHTML = row + document.getElementById('historyBody').innerHTML;
+        let row = `<tr><td>第 ${currentToss} 爻</td><td>${name}</td><td class="highlight">${type}</td></tr>`;
+        document.getElementById('logBody').innerHTML = row + document.getElementById('logBody').innerHTML;
 
-        if (tossCount === 6) {
-            analyzeGua();
+        if(currentToss === 6) {
+            document.getElementById('actionBtn').disabled = true;
+            generateSmartAnalysis(q);
         }
     }
 
-    async function analyzeGua() {
-        document.getElementById('aiAnalysis').style.display = 'block';
-        const aiContent = document.getElementById('aiContent');
+    function generateSmartAnalysis(q) {
+        const resBox = document.getElementById('analysisResult');
+        const resText = document.getElementById('finalText');
+        resBox.style.display = 'block';
         
-        // 這裡封裝了你的精準指令
-        const prompt = `
-        你是一位精通易經六爻的命理大師。現在有一位求問者，問題是：『${questionInput.value}』。
-        卦象結果（由初爻到上爻）：${hexagram.map(h => h.resultText).join(", ")}。
+        // 核心邏輯計算
+        let yangCount = guaData.filter(g => g.type === "陽").length;
+        let changeCount = guaData.filter(g => g.sum === 0 || g.sum === 3).length;
+        let score = (yangCount * 15) + (Math.random() * 10);
+        if(score > 100) score = 98;
+        
+        // 判斷問題類型
+        let type = "通用";
+        if(q.includes("情") || q.includes("愛") || q.includes("他") || q.includes("她")) type = "感情";
+        if(q.includes("錢") || q.includes("工作") || q.includes("事") || q.includes("生")) type = "事業";
 
-        請嚴格按照以下格式進行精準評測：
+        let conclusion = score > 60 ? "【斷語】此卦象顯示：吉。成事機率約 " + Math.floor(score) + "%。" : "【斷語】目前時機尚未成熟。成事機率約 " + Math.floor(score) + "%。";
         
-        1. 【斷語】：如果問題是問「會不會、能不能、好不好」，請直接給出傾向性結論（例如：大吉、偏向成功、機率不大），並給出一個 0-100% 的成事機率。
-        
-        2. 【情境貼合分析】：
-           - 若問感情：分析對方的心理狀態或兩人的緣分深淺。
-           - 若問事業/金錢：分析障礙點在哪裡，財運是否亨通。
-           - 若問是非：分析是否有小人或流言。
-        
-        3. 【卦象解碼】：簡單解釋為什麼會有上述結論（結合動爻、陰陽變化）。
-        
-        4. 【大師叮嚀】：給予具體的行動建議。
-        
-        請用專業、沉穩、帶有一點玄學優雅感的語氣回答，字數約 200-300 字。
-        `;
-
-        try {
-            // 使用免費的 DuckDuckGo 或類似 API 的橋接方式，這裡簡化為邏輯演示
-            // 實務上您可以在此串接您的 API Key
-            aiContent.innerText = "正在為您撥雲見日，請稍候...";
-            
-            // 這裡模擬 AI 回覆，正式版建議您放入您的 OpenAI/Gemini API Key 串接代碼
-            // 為了讓您馬上能用，我先寫一個自動化邏輯
-            setTimeout(() => {
-                aiContent.innerText = "【斷語】卦象顯示此時「誠則靈，躁則凶」。成事機率約 65%。\n\n【情境分析】針對您問的「" + questionInput.value + "」，卦中陽氣漸長，代表事情已有眉目。若是問感情，代表對方對您有期待但仍有顧慮；若是問事業，則需注意中途轉向。\n\n【卦象解碼】您的卦象中出現了變爻，代表事情正處於轉換期，不宜墨守成規。\n\n【大師叮嚀】保持冷靜，三日之內必有轉機，建議多聽取長輩意見。";
-            }, 2000);
-
-        } catch (e) {
-            aiContent.innerText = "感應失敗，請檢查網路連線。";
+        let scenario = "";
+        if(type === "感情") {
+            scenario = "針對您問的感情之事，長者感應到對方的心境正如同這卦象，有起伏但仍有餘地。若問感覺，對方目前對您是有所保留的「觀望」狀態，建議不要急於索求答案。";
+        } else if(type === "事業") {
+            scenario = "事業方面，目前處於「蓄勢待發」的階段。卦中的變爻代表事情會有一次轉折，現在看到的困難不一定是壞事，反而是轉機。";
+        } else {
+            scenario = "關於您求問的事，目前局勢如雲開見月。事情的發展會比您預想的要慢一些，但方向是正確的。";
         }
+
+        let advice = changeCount > 2 ? "卦中動爻較多，代表「變數大」，這幾天請保持平常心，以靜制動。" : "卦象平穩，代表「守恆」，只要按部就班，事情自然水到渠成。";
+
+        resText.innerHTML = `<p>${conclusion}</p><p>【情境感應】<br>${scenario}</p><p>【易理分析】<br>此卦陽氣佔 ${yangCount} 分，陰氣佔 ${6-yangCount} 分，陰陽調和程度尚可。${advice}</p><p>【長者叮嚀】<br>莫急、莫慌。這兩天可以多喝茶靜心，好的答案往往在放鬆時出現。</p>`;
     }
 </script>
 
