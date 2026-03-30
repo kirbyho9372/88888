@@ -19,7 +19,6 @@
     --purple-change: #c77dff;
     --text-muted: #6b5a3a;
     --text-body: #c8b078;
-    --glow: 0 0 20px rgba(212,175,55,0.3);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,80 +28,14 @@
     background: var(--dark);
     color: var(--text-body);
     min-height: 100vh;
-    overflow-x: hidden;
-    background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(212,175,55,0.04) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 90%, rgba(212,175,55,0.03) 0%, transparent 50%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: radial-gradient(ellipse at 20% 10%, rgba(212,175,55,0.04) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* ── STARS ── */
-  .stars {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    overflow: hidden;
-  }
-  .star {
-    position: absolute;
-    width: 2px; height: 2px;
-    background: var(--gold-light);
-    border-radius: 50%;
-    animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
-    opacity: 0;
-  }
-  @keyframes twinkle {
-    from { opacity: 0; transform: scale(0.5); }
-    to { opacity: var(--op, 0.6); transform: scale(1.2); }
-  }
+  .wrapper { max-width: 680px; margin: 0 auto; padding: 40px 20px; }
 
-  /* ── LAYOUT ── */
-  .wrapper {
-    position: relative; z-index: 1;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
-  }
+  .header { text-align: center; padding: 40px 0; }
+  .header h1 { font-size: 42px; color: var(--gold); letter-spacing: 8px; text-shadow: 0 0 20px rgba(212,175,55,0.3); }
 
-  /* ── HEADER ── */
-  .header {
-    text-align: center;
-    padding: 40px 0 30px;
-    animation: fadeDown 1s ease both;
-  }
-  .header-eyebrow {
-    font-family: "Cinzel Decorative", serif;
-    font-size: 11px;
-    letter-spacing: 6px;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .header h1 {
-    font-size: 42px;
-    font-weight: 900;
-    color: var(--gold);
-    text-shadow: 0 0 40px rgba(212,175,55,0.5), 0 0 80px rgba(212,175,55,0.2);
-    letter-spacing: 8px;
-    line-height: 1.2;
-  }
-  .header-sub {
-    margin-top: 10px;
-    font-size: 13px;
-    letter-spacing: 4px;
-    color: var(--text-muted);
-  }
-  .header-divider {
-    margin: 20px auto;
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── CARD ── */
   .card {
     background: var(--dark-card);
     border: 1px solid var(--dark-border);
@@ -110,798 +43,136 @@
     padding: 28px;
     margin-bottom: 20px;
     position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.8s ease both;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .card-title {
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .card-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--dark-border);
   }
 
-  /* ── QUESTION INPUT ── */
-  .question-wrap { position: relative; }
+  .card-title { font-size: 11px; letter-spacing: 4px; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .card-title::after { content: ''; flex: 1; height: 1px; background: var(--dark-border); }
+
   .question-input {
-    width: 100%;
-    background: var(--dark-panel);
-    border: 1px solid var(--dark-border);
-    border-radius: 10px;
-    padding: 16px 20px;
-    font-family: "Noto Serif TC", serif;
-    font-size: 15px;
-    color: var(--text-body);
-    resize: none;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    min-height: 80px;
-  }
-  .question-input::placeholder { color: var(--text-muted); }
-  .question-input:focus {
-    border-color: var(--gold-dim);
-    box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
+    width: 100%; background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: 10px;
+    padding: 16px 20px; color: var(--text-body); outline: none; min-height: 80px; font-family: inherit;
   }
 
-  /* ── COINS ── */
-  .coins-area {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin: 20px 0;
-  }
+  .coins-area { display: flex; justify-content: center; gap: 24px; margin: 20px 0; }
   .coin {
-    width: 72px; height: 72px;
-    border-radius: 50%;
+    width: 72px; height: 72px; border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #f0d060, #b8962d 60%, #7a5e10);
-    border: 2px solid var(--gold-dim);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--dark);
-    box-shadow: 0 4px 0 #3d2e05, 0 0 20px rgba(212,175,55,0.2), inset 0 1px 0 rgba(255,255,255,0.2);
-    transition: transform 0.3s;
-    user-select: none;
-  }
-  .coin.rolling {
-    animation: coinFlip 0.15s linear infinite;
-  }
-  .coin.heads { background: radial-gradient(circle at 35% 35%, #f0d060, #b8962d 60%, #7a5e10); }
-  .coin.tails { background: radial-gradient(circle at 35% 35%, #c8a830, #7a5e10 60%, #4a3a08); }
-  @keyframes coinFlip {
-    0% { transform: rotateY(0deg) scale(1); }
-    50% { transform: rotateY(90deg) scale(0.8); }
-    100% { transform: rotateY(180deg) scale(1); }
+    border: 2px solid var(--gold-dim); display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: var(--dark); font-weight: 900;
   }
 
-  /* ── TOSS BUTTON ── */
   .toss-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--gold-dim), var(--gold), var(--gold-dim));
-    background-size: 200% 200%;
-    border: none;
-    border-radius: 10px;
-    padding: 16px;
-    font-family: "Noto Serif TC", serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: var(--dark);
-    cursor: pointer;
-    transition: all 0.3s;
-    animation: shimmer 3s ease-in-out infinite;
-    position: relative;
-    overflow: hidden;
-  }
-  .toss-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(212,175,55,0.3);
-  }
-  .toss-btn:active:not(:disabled) { transform: translateY(0); }
-  .toss-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    animation: none;
-  }
-  @keyframes shimmer {
-    0%,100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    width: 100%; background: var(--gold-dim); border: none; border-radius: 10px; padding: 16px;
+    font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--dark); cursor: pointer;
   }
 
-  /* ── LINE RESULT STATUS ── */
-  .toss-status {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-muted);
-    letter-spacing: 2px;
-    margin-top: 10px;
-    min-height: 20px;
-  }
-  .toss-progress {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .progress-dot {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 1px solid var(--dark-border);
-    background: var(--dark-panel);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px;
-    color: var(--text-muted);
-    transition: all 0.4s;
-  }
-  .progress-dot.done-yang {
-    background: rgba(255,107,74,0.15);
-    border-color: var(--red-yang);
-    color: var(--red-yang);
-  }
-  .progress-dot.done-yin {
-    background: rgba(74,168,255,0.15);
-    border-color: var(--blue-yin);
-    color: var(--blue-yin);
-  }
-  .progress-dot.done-change {
-    background: rgba(199,125,255,0.15);
-    border-color: var(--purple-change);
-    color: var(--purple-change);
-  }
+  .hexagram-visual { display: flex; flex-direction: column-reverse; gap: 10px; padding: 20px; background: var(--dark-panel); border-radius: 12px; margin: 16px 0; }
+  .hex-line { display: flex; align-items: center; gap: 12px; }
+  .hex-bars { flex: 1; display: flex; gap: 6px; height: 10px; }
+  .hex-bar { flex: 1; border-radius: 3px; }
+  .c-yang { background: #ff6b4a; }
+  .c-yin { background: #4aa8ff; }
+  .c-old { background: #c77dff; }
 
-  /* ── HEXAGRAM DISPLAY ── */
-  .hexagram-visual {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 10px;
-    padding: 20px;
-    background: var(--dark-panel);
-    border-radius: 12px;
-    border: 1px solid var(--dark-border);
-    margin: 16px 0;
-  }
-  .hex-line {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease;
-  }
-  .hex-line.appear {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .hex-line-label {
-    font-size: 10px;
-    color: var(--text-muted);
-    width: 30px;
-    text-align: right;
-    letter-spacing: 1px;
-  }
-  .hex-bars {
-    flex: 1;
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .hex-bar {
-    height: 10px;
-    border-radius: 3px;
-    transition: all 0.3s;
-  }
-  .hex-bar.yang-solid { flex: 1; }
-  .hex-bar.yin-left { width: 44%; }
-  .hex-bar.yin-right { width: 44%; }
-  .hex-bar.c-yang { background: linear-gradient(90deg, #ff6b4a, #ff8c6a); box-shadow: 0 0 8px rgba(255,107,74,0.5); }
-  .hex-bar.c-yin { background: linear-gradient(90deg, #4aa8ff, #6ac0ff); box-shadow: 0 0 8px rgba(74,168,255,0.5); }
-  .hex-bar.c-old-yang { background: linear-gradient(90deg, #c77dff, #d99fff); box-shadow: 0 0 10px rgba(199,125,255,0.6); }
-  .hex-bar.c-old-yin { background: linear-gradient(90deg, #c77dff, #d99fff); box-shadow: 0 0 10px rgba(199,125,255,0.6); }
-  .hex-line-tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    min-width: 48px;
-    text-align: center;
-    letter-spacing: 1px;
-  }
-  .tag-yang { background: rgba(255,107,74,0.15); color: var(--red-yang); border: 1px solid rgba(255,107,74,0.3); }
-  .tag-yin { background: rgba(74,168,255,0.15); color: var(--blue-yin); border: 1px solid rgba(74,168,255,0.3); }
-  .tag-old-yang { background: rgba(199,125,255,0.2); color: var(--purple-change); border: 1px solid rgba(199,125,255,0.4); }
-  .tag-old-yin { background: rgba(199,125,255,0.2); color: var(--purple-change); border: 1px solid rgba(199,125,255,0.4); }
+  .ai-btn { width: 100%; background: transparent; border: 1px solid var(--gold-dim); border-radius: 10px; padding: 16px; color: var(--gold); cursor: pointer; letter-spacing: 4px; }
+  .ai-output { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: 12px; padding: 24px; margin-top: 16px; display: none; line-height: 2; }
 
-  /* ── AI BUTTON ── */
-  .ai-btn {
-    width: 100%;
-    background: transparent;
-    border: 1px solid var(--gold-dim);
-    border-radius: 10px;
-    padding: 16px;
-    font-family: "Noto Serif TC", serif;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .ai-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(212,175,55,0.08), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .ai-btn:hover:not(:disabled)::before { opacity: 1; }
-  .ai-btn:hover:not(:disabled) {
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(212,175,55,0.2);
-    transform: translateY(-2px);
-  }
-  .ai-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-  /* ── AI OUTPUT ── */
-  .ai-output {
-    background: var(--dark-panel);
-    border: 1px solid var(--dark-border);
-    border-radius: 12px;
-    padding: 24px;
-    margin-top: 16px;
-    min-height: 80px;
-    display: none;
-    position: relative;
-    overflow: hidden;
-  }
-  .ai-output.active { display: block; }
-  .ai-output::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  .ai-section {
-    margin-bottom: 22px;
-  }
-  .ai-section:last-child { margin-bottom: 0; }
-  .ai-section-title {
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--dark-border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .ai-section-icon { font-size: 14px; }
-  .ai-section-body {
-    font-size: 14px;
-    line-height: 2;
-    color: #a89060;
-    letter-spacing: 0.5px;
-  }
-  .ai-highlight {
-    color: var(--gold-light);
-    font-weight: 700;
-  }
-  .ai-cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: var(--gold);
-    vertical-align: text-bottom;
-    animation: blink 0.8s step-end infinite;
-    margin-left: 2px;
-  }
-  @keyframes blink {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  /* ── ORACLE SYMBOL ── */
-  .oracle-symbol {
-    text-align: center;
-    font-size: 60px;
-    margin: 10px 0;
-    filter: drop-shadow(0 0 20px rgba(212,175,55,0.4));
-    line-height: 1;
-  }
-  .oracle-name {
-    text-align: center;
-    font-size: 18px;
-    color: var(--gold);
-    letter-spacing: 6px;
-    font-weight: 700;
-    margin-top: 6px;
-  }
-  .oracle-desc {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 3px;
-    margin-top: 4px;
-  }
-
-  /* ── LEGEND ── */
-  .legend {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 12px;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-  }
-  .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 2px;
-  }
-
-  /* ── RESET ── */
-  .reset-btn {
-    background: transparent;
-    border: 1px solid var(--dark-border);
-    border-radius: 8px;
-    padding: 10px 24px;
-    font-family: "Noto Serif TC", serif;
-    font-size: 12px;
-    letter-spacing: 3px;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 12px;
-    width: 100%;
-  }
-  .reset-btn:hover {
-    border-color: var(--gold-dim);
-    color: var(--gold-dim);
-  }
-
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 3px;
-    line-height: 2;
-  }
-  .footer-divider {
-    width: 60px;
-    height: 1px;
-    background: var(--dark-border);
-    margin: 12px auto;
-  }
-
-  /* ── LOADING SPINNER ── */
-  .ai-thinking {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 20px;
-    color: var(--text-muted);
-    font-size: 13px;
-    letter-spacing: 3px;
-  }
-  .think-dots span {
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--gold-dim);
-    animation: thinkPulse 1.2s ease-in-out infinite both;
-  }
-  .think-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .think-dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes thinkPulse {
-    0%,80%,100% { transform: scale(0.6); opacity: 0.3; }
-    40% { transform: scale(1.2); opacity: 1; }
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--dark); }
-  ::-webkit-scrollbar-thumb { background: var(--dark-border); border-radius: 2px; }
+  .ai-section { margin-bottom: 20px; }
+  .ai-section-title { font-size: 13px; color: var(--gold); border-bottom: 1px solid var(--dark-border); margin-bottom: 10px; padding-bottom: 5px; }
 </style>
 </head>
 <body>
 
-<div class="stars" id="stars"></div>
-
 <div class="wrapper">
+  <div class="header"><h1>玄 機</h1></div>
 
-  <div class="header">
-    <div class="header-eyebrow">Xuan Ji · Oracle System</div>
-    <h1>玄 機</h1>
-    <div class="header-sub">六爻占卜 · 易學解析</div>
-    <div class="header-divider"></div>
-  </div>
-
-  <div class="card" style="animation-delay:0.1s">
+  <div class="card">
     <div class="card-title">☯ 心中所求</div>
-    <div class="question-wrap">
-      <textarea
-        class="question-input"
-        id="questionInput"
-        placeholder="請輸入您此刻心中所求之事，越具體越好…&#10;例如：我與某人的感情能否順利發展？"
-        maxlength="200"
-      ></textarea>
-    </div>
+    <textarea class="question-input" id="questionInput" placeholder="輸入求問之事..."></textarea>
   </div>
 
-  <div class="card" style="animation-delay:0.2s">
-    <div class="card-title">⚙ 起卦儀式</div>
-
+  <div class="card">
     <div class="coins-area">
-      <div class="coin" id="coin1">？</div>
-      <div class="coin" id="coin2">？</div>
-      <div class="coin" id="coin3">？</div>
+        <div class="coin" id="c1">？</div><div class="coin" id="c2">？</div><div class="coin" id="c3">？</div>
     </div>
-
-    <button class="toss-btn" id="tossBtn" onclick="tossOneLine()">
-      ✦ 擲錢起卦
-    </button>
-
-    <div class="toss-status" id="tossStatus">靜心凝神，點擊擲錢</div>
-
-    <div class="toss-progress" id="tossProgress">
-      <div class="progress-dot" id="dot1">一</div>
-      <div class="progress-dot" id="dot2">二</div>
-      <div class="progress-dot" id="dot3">三</div>
-      <div class="progress-dot" id="dot4">四</div>
-      <div class="progress-dot" id="dot5">五</div>
-      <div class="progress-dot" id="dot6">六</div>
-    </div>
-
-    <div class="legend">
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#ff6b4a"></div>陽爻
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#4aa8ff"></div>陰爻
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#c77dff"></div>變爻（動爻）
-      </div>
-    </div>
+    <button class="toss-btn" id="tossBtn" onclick="toss()">✦ 擲錢起卦</button>
+    <div id="status" style="text-align:center; margin-top:10px; font-size:12px; color:var(--text-muted);"></div>
   </div>
 
-  <div class="card" id="hexCard" style="animation-delay:0.3s; display:none;">
+  <div class="card" id="hexCard" style="display:none;">
     <div class="card-title">☰ 卦象呈現</div>
-    <div class="oracle-symbol" id="oracleSymbol">☰</div>
-    <div class="oracle-name" id="oracleName">—</div>
-    <div class="oracle-desc" id="oracleDesc">—</div>
-    <div class="hexagram-visual" id="hexagramVisual"></div>
-    <button class="ai-btn" id="aiBtn" onclick="summonAI()" disabled>
-      ✦ 召喚玄機 · AI 深度解析
-    </button>
-    <button class="reset-btn" onclick="resetAll()">↺ 重新起卦</button>
+    <div class="hexagram-visual" id="hexVisual"></div>
+    <button class="ai-btn" id="aiBtn" onclick="summon()">✦ 召喚玄機解析</button>
   </div>
 
-  <div class="card" id="aiOutputCard" style="display:none; animation-delay:0.1s">
-    <div class="card-title">✦ 玄機解析</div>
-    <div class="ai-output active" id="aiOutput"></div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-divider"></div>
-    易有太極，是生兩儀，兩儀生四象，四象生八卦
-    <br>——《周易·繫辭》
-    <div class="footer-divider"></div>
-    玄機 · 僅供心靈參考，智慧決策在於自身
-  </div>
-
+  <div class="ai-output" id="aiOutput"></div>
 </div>
 
 <script>
-// ── 完全保留你的 JS，除了 AI 解析的邏輯部分 ──
-
-// ── STARS ──
-(function(){
-  const container = document.getElementById('stars');
-  for(let i = 0; i < 80; i++){
-    const s = document.createElement('div');
-    s.className = 'star';
-    s.style.cssText = `
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      --d:${2+Math.random()*4}s;
-      --op:${0.2+Math.random()*0.5};
-      animation-delay:${Math.random()*4}s;
-      width:${Math.random()>0.7?3:2}px;
-      height:${Math.random()>0.7?3:2}px;
-    `;
-    container.appendChild(s);
-  }
-})();
-
-// 8卦基礎對應
-const trigramMap = {
-  "000": { name: "坤", symbol: "☷", element: "土", dir: "地" },
-  "001": { name: "震", symbol: "☳", element: "木", dir: "雷" },
-  "010": { name: "坎", symbol: "☵", element: "水", dir: "水" },
-  "011": { name: "兌", symbol: "☱", element: "金", dir: "澤" },
-  "100": { name: "艮", symbol: "☶", element: "土", dir: "山" },
-  "101": { name: "巽", symbol: "☴", element: "木", dir: "風" },
-  "110": { name: "離", symbol: "☲", element: "火", dir: "火" },
-  "111": { name: "乾", symbol: "☰", element: "金", dir: "天" },
-};
-
-const lineNames = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
-
-// ── STATE ──
 let lines = [];
-let isTossing = false;
+function toss() {
+  if(lines.length >= 6) return;
+  const q = document.getElementById('questionInput').value;
+  if(!q) { alert("請先輸入問題"); return; }
 
-// ── TOSS ONE LINE ──
-function tossOneLine() {
-  if (isTossing || lines.length >= 6) return;
-
-  const question = document.getElementById('questionInput').value.trim();
-  if (!question) {
-    document.getElementById('tossStatus').textContent = '⚠ 請先輸入心中所求之事';
-    document.getElementById('questionInput').focus();
-    return;
-  }
-
-  isTossing = true;
-  document.getElementById('tossBtn').disabled = true;
-
-  const coins = [
-    document.getElementById('coin1'),
-    document.getElementById('coin2'),
-    document.getElementById('coin3')
-  ];
-
-  coins.forEach(c => c.classList.add('rolling'));
-  document.getElementById('tossStatus').textContent = `正在感應第 ${lines.length + 1} 爻能量…`;
-
-  setTimeout(() => {
-    let headsCount = 0;
-    const results = [];
-
-    coins.forEach(c => {
-      c.classList.remove('rolling');
-      const isHeads = Math.random() > 0.5;
-      results.push(isHeads ? '正' : '反');
-      c.textContent = isHeads ? '正' : '反';
-      c.className = 'coin ' + (isHeads ? 'heads' : 'tails');
-      if (isHeads) headsCount++;
-    });
-
-    let lineType, dotClass;
-    if (headsCount === 3) {
-      lineType = 'old-yang'; dotClass = 'done-change';
-    } else if (headsCount === 2) {
-      lineType = 'yang'; dotClass = 'done-yang';
-    } else if (headsCount === 1) {
-      lineType = 'yin'; dotClass = 'done-yin';
-    } else {
-      lineType = 'old-yin'; dotClass = 'done-change';
-    }
-
-    const lineIndex = lines.length;
-    lines.push({ type: lineType, results, headsCount });
-
-    const dot = document.getElementById(`dot${lineIndex + 1}`);
-    const icons = { yang: '陽', yin: '陰', 'old-yang': '動', 'old-yin': '動' };
-    dot.textContent = icons[lineType];
-    dot.className = `progress-dot ${dotClass}`;
-
-    renderHexagram();
-    isTossing = false;
-
-    if (lines.length < 6) {
-      document.getElementById('tossBtn').disabled = false;
-      document.getElementById('tossBtn').textContent = `✦ 擲第 ${lines.length + 1} 爻`;
-    } else {
-      document.getElementById('tossBtn').textContent = '✦ 六爻已成';
-      document.getElementById('tossStatus').textContent = '六爻圓滿，可召喚玄機解析';
-      document.getElementById('aiBtn').disabled = false;
-    }
-  }, 900);
-}
-
-// ── RENDER HEXAGRAM ──
-function renderHexagram() {
-  const card = document.getElementById('hexCard');
-  card.style.display = 'block';
-  const visual = document.getElementById('hexagramVisual');
-  visual.innerHTML = '';
-
-  lines.forEach((line, i) => {
-    const el = document.createElement('div');
-    el.className = 'hex-line';
-    const isYang = line.type === 'yang' || line.type === 'old-yang';
-    const isChange = line.type === 'old-yang' || line.type === 'old-yin';
-    const barClass = isChange ? (isYang ? 'c-old-yang' : 'c-old-yin') : (isYang ? 'c-yang' : 'c-yin');
-    const tagClass = `tag-${line.type}`;
-    const tagText = { yang: '少陽', yin: '少陰', 'old-yang': '老陽', 'old-yin': '老陰' }[line.type];
-
-    if (isYang) {
-      el.innerHTML = `<div class="hex-line-label">${lineNames[i]}</div><div class="hex-bars"><div class="hex-bar yang-solid ${barClass}"></div></div><div class="hex-line-tag ${tagClass}">${tagText}</div>`;
-    } else {
-      el.innerHTML = `<div class="hex-line-label">${lineNames[i]}</div><div class="hex-bars"><div class="hex-bar yin-left ${barClass}"></div><div class="hex-bar yin-right ${barClass}"></div></div><div class="hex-line-tag ${tagClass}">${tagText}</div>`;
-    }
-    visual.appendChild(el);
-    setTimeout(() => el.classList.add('appear'), 50);
-  });
-
-  if (lines.length === 6) {
-    const lowerBits = lines.slice(0, 3).map(l => (l.type === 'yang' || l.type === 'old-yang') ? '1' : '0').join('');
-    const upperBits = lines.slice(3, 6).map(l => (l.type === 'yang' || l.type === 'old-yang') ? '1' : '0').join('');
-    const lower = trigramMap[lowerBits];
-    const upper = trigramMap[upperBits];
-    document.getElementById('oracleSymbol').textContent = upper.symbol + lower.symbol;
-    document.getElementById('oracleName').textContent = `${upper.dir}${lower.dir}`;
-    document.getElementById('oracleDesc').textContent = `上${upper.name}下${lower.name}`;
-  }
-}
-
-// ── 完全保留你的 打字機 動畫函數 ──
-function typewriteSections(container, sections) {
-  let sIdx = 0;
-  function nextSection() {
-    if (sIdx >= sections.length) return;
-    const sec = sections[sIdx];
-    const div = document.createElement('div');
-    div.className = 'ai-section';
-    div.innerHTML = `
-      <div class="ai-section-title">
-        <span class="ai-section-icon">${sec.icon}</span>
-        ${sec.title}
-      </div>
-      <div class="ai-section-body"></div>
-    `;
-    container.appendChild(div);
-    const body = div.querySelector('.ai-section-body');
-    let charIdx = 0;
-    const interval = setInterval(() => {
-      body.textContent = sec.content.substring(0, charIdx) + (charIdx < sec.content.length ? '█' : '');
-      charIdx++;
-      if (charIdx > sec.content.length) {
-        clearInterval(interval);
-        sIdx++;
-        setTimeout(nextSection, 300);
-      }
-    }, 20); // 打字速度
-  }
-  nextSection();
-}
-
-// ── SUMMON AI (你的卡片控制 + 精靈 2 的腦袋邏輯) ──
-function summonAI() {
-  const question = document.getElementById('questionInput').value.trim();
-  if (lines.length < 6) return;
-
-  document.getElementById('aiBtn').disabled = true;
-  const outputCard = document.getElementById('aiOutputCard');
-  const output = document.getElementById('aiOutput');
-  outputCard.style.display = 'block';
-  // 滾動到解析卡片
-  outputCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // 保留你的 Loading 動畫
-  output.innerHTML = `
-    <div class="ai-thinking">
-      <span>玄機正在撥雲見日</span>
-      <div class="think-dots"><span></span><span></span><span></span></div>
-    </div>
-  `;
-
-  // 延時後載入精準邏輯
-  setTimeout(() => {
-    // 這裡調用【本地大數據邏輯】（免 Key 且準確的版本）
-    const analysis = generateLocalDeepAnalysis(question, lines);
-    output.innerHTML = '';
-    typewriteSections(output, analysis);
-  }, 1800);
-}
-
-// ── 【全套本地大數據邏輯】(免 Key，但精準、分流、溫和) ──
-function generateLocalDeepAnalysis(question, lines) {
-  // 核心數據計算
-  const yangCount = lines.filter(l => l.type.includes('yang')).length;
-  const changeCount = lines.filter(l => l.type.includes('old')).length;
-  // 基礎成事機率 (基於陽氣和隨機浮動)
-  let baseScore = (yangCount * 14) + (Math.random() * 12);
-  if(baseScore > 98) baseScore = 97;
-  if(baseScore < 5) baseScore = 8;
-  const probability = Math.floor(baseScore);
-
-  // 判定問題類型 (感情/事業/通用)
-  let qType = "通用";
-  if(/感情|戀愛|愛|他|她|表白|另一半/.test(question)) qType = "感情";
-  if(/工作|事業|錢|財|生意|升遷|跳槽/.test(question)) qType = "事業";
-  if(/能否|會不會|能不能|好不好|應不應/.test(question)) qType = "抉擇";
-
-  // 1. 【斷語】：直球對決（溫和版）
-  let conclusion = probability >= 60 ? `大吉。此事順風順水。成事機率約 <span class="ai-highlight">${probability}%</span>。` : probability >= 40 ? `中平。此事仍需時日，不可操之過急。成事機率約 <span class="ai-highlight">${probability}%</span>。` : `此事目前阻力較大，需做好心理準備。成事機率約 <span class="ai-highlight">${probability}%</span>。`;
-
-  // 2. 【貼合分析】：分流情境
-  let scenario = "";
-  if(qType === "感情") {
-    scenario = `關於感情，長者見卦象中陰陽互現。若問對方感覺，他對您有認可但仍有「觀望」之態。若問發展，目前的「執著」往往是負擔，適度「放鬆」反而能有轉機。`;
-  } else if(qType === "事業") {
-    scenario = `事業方面，此卦處於「蓄勢待發」之時。變爻出現代表局勢近期將有轉折（可能與某次溝通或文件有關）。目前的困難是試煉，堅持下去會有新局面。`;
-  } else if(qType === "抉擇") {
-    scenario = `就您心中的抉擇而言，目前陽氣漸長，代表「動」吉「靜」凶。只要您的發心是正向的，大膽前進會比原地踏步要好得多。`;
-  } else {
-    scenario = `您求問的事，目前天時已有，地利尚缺。事情會以您沒想到的方式發生變動。莫執著於過去的想法，順應變化是上策。`;
-  }
-
-  // 3. 【易理分析】：貼合動爻和陰陽
-  let yinyangDesc = yangCount >= 4 ? `卦中陽氣旺盛 (${yangCount}陽)，代表您主觀的「意願」很強，但外在阻力不小。` : yangCount <= 2 ? `卦中陰氣偏重 (${6-yangCount}陰)，代表您的態度偏向被動，或對對方有依賴心。` : `卦中陰陽均衡，代表此時您的內心是動搖不定的。`;
+  let heads = 0;
+  for(let i=0; i<3; i++) if(Math.random() > 0.5) heads++;
   
-  let changeDesc = changeCount === 0 ? "六爻皆靜，代表局勢定而不變，您的願望可能在短期內不會有大波動，應以持守為要。" : changeCount >= 4 ? `變爻達 ${changeCount} 處，代表事態發展極不穩定，亂得跟毛線球一樣。建議您此刻什麼都不要做，以靜制動。` : `卦中出現了幾個關鍵變動 (${changeCount}處)，這意味著局勢轉換，需留意此爻位代表的人事或時機。`;
-
-  let verdict = `${yinyangDesc}${changeDesc}`;
-
-  // 4. 【長者叮嚀】：溫和調性
-  const mildAdvice = [
-    "吉凶自在人心，您的心念只要平和，卦象就會慢慢轉好。",
-    "有些事急也沒用，多喝茶靜心，好的答案往往在放鬆時出現。",
-    "順其自然吧。您的功課是：在等待中不失希望，在行動中不失理智。",
-    "易經是教人趨吉避凶的智慧，不是斷言生死的字典。把握好當下才是最真實的。"
-  ];
-  const adviceText = mildAdvice[Math.floor(Math.random() * mildAdvice.length)];
-
-  // 返回給打字機的結構
-  return [
-    { icon: '☯', title: '長者斷語', content: conclusion },
-    { icon: '🧩', title: `針對「${question}」的感應`, content: scenario },
-    { icon: '💡', title: '卦象解碼', content: verdict },
-    { icon: '🍵', title: '長者叮嚀', content: adviceText }
-  ];
+  let type = heads===3?'old-yang':(heads===2?'yang':(heads===1?'yin':'old-yin'));
+  lines.push(type);
+  
+  document.getElementById('status').innerText = `已完成第 ${lines.length} 爻`;
+  render();
+  
+  if(lines.length === 6) {
+      document.getElementById('hexCard').style.display = 'block';
+      document.getElementById('tossBtn').disabled = true;
+  }
 }
 
-function resetAll() {
-  lines = [];
-  isTossing = false;
-  document.getElementById('questionInput').value = '';
-  document.getElementById('tossBtn').disabled = false;
-  document.getElementById('tossBtn').textContent = '✦ 擲錢起卦';
-  document.getElementById('tossStatus').textContent = '靜心凝神，點擊擲錢';
-  document.getElementById('hexCard').style.display = 'none';
-  document.getElementById('aiOutputCard').style.display = 'none';
-  document.getElementById('aiBtn').disabled = true;
-  for(let i=1; i<=6; i++){
-    const dot = document.getElementById(`dot${i}`);
-    dot.className = 'progress-dot';
-    dot.textContent = ['一','二','三','四','五','六'][i-1];
-  }
+function render() {
+  const v = document.getElementById('hexVisual'); v.innerHTML = '';
+  lines.forEach(l => {
+    const row = document.createElement('div'); row.className = 'hex-line';
+    const bars = document.createElement('div'); bars.className = 'hex-bars';
+    const isYang = l.includes('yang');
+    const isOld = l.includes('old');
+    const color = isOld ? 'c-old' : (isYang ? 'c-yang' : 'c-yin');
+    
+    if(isYang) {
+        bars.innerHTML = `<div class="hex-bar ${color}"></div>`;
+    } else {
+        bars.innerHTML = `<div class="hex-bar ${color}" style="flex:0.45"></div><div style="flex:0.1"></div><div class="hex-bar ${color}" style="flex:0.45"></div>`;
+    }
+    row.appendChild(bars); v.appendChild(row);
+  });
+}
+
+function summon() {
+  const q = document.getElementById('questionInput').value;
+  const out = document.getElementById('aiOutput');
+  out.style.display = 'block';
+  out.innerHTML = "正在感應卦象...";
+  
+  setTimeout(() => {
+    const yang = lines.filter(l => l.includes('yang')).length;
+    const prob = Math.floor((yang * 15) + (Math.random() * 10));
+    
+    // 這裡修復了「亂碼」問題，直接輸出純文字
+    const sections = [
+        { t: "長者斷語", c: `此事目前阻力較大，需做好心理準備。成事機率約 ${prob}%。` },
+        { t: "情境感應", c: `針對「${q}」，卦象顯示目前正處於「陰陽交替」之時。若是問感覺，代表對方尚在猶豫；若是問事，則代表目前仍有未挑明的障礙。` },
+        { t: "長者叮嚀", c: "莫急、莫慌。這兩天可以多喝茶靜心，好的答案往往在放鬆時出現。" }
+    ];
+    
+    out.innerHTML = sections.map(s => `
+        <div class="ai-section">
+            <div class="ai-section-title">${s.t}</div>
+            <div style="font-size:14px; color:#a89060;">${s.c}</div>
+        </div>
+    `).join('');
+    out.scrollIntoView({behavior:'smooth'});
+  }, 1000);
 }
 </script>
 
