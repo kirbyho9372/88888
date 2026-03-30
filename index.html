@@ -32,7 +32,6 @@
   }
 
   .wrapper { max-width: 680px; margin: 0 auto; padding: 40px 20px; }
-
   .header { text-align: center; padding: 40px 0; }
   .header h1 { font-size: 42px; color: var(--gold); letter-spacing: 8px; text-shadow: 0 0 20px rgba(212,175,55,0.3); }
 
@@ -42,7 +41,6 @@
     border-radius: 16px;
     padding: 28px;
     margin-bottom: 20px;
-    position: relative;
   }
 
   .card-title { font-size: 11px; letter-spacing: 4px; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
@@ -50,7 +48,7 @@
 
   .question-input {
     width: 100%; background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: 10px;
-    padding: 16px 20px; color: var(--text-body); outline: none; min-height: 80px; font-family: inherit;
+    padding: 16px 20px; color: var(--text-body); outline: none; min-height: 80px; font-family: inherit; font-size: 15px;
   }
 
   .coins-area { display: flex; justify-content: center; gap: 24px; margin: 20px 0; }
@@ -58,27 +56,30 @@
     width: 72px; height: 72px; border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #f0d060, #b8962d 60%, #7a5e10);
     border: 2px solid var(--gold-dim); display: flex; align-items: center; justify-content: center;
-    font-size: 22px; color: var(--dark); font-weight: 900;
+    font-size: 20px; color: var(--dark); font-weight: 900;
   }
 
   .toss-btn {
     width: 100%; background: var(--gold-dim); border: none; border-radius: 10px; padding: 16px;
-    font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--dark); cursor: pointer;
+    font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--dark); cursor: pointer; transition: 0.3s;
   }
+  .toss-btn:hover { background: var(--gold-light); }
 
   .hexagram-visual { display: flex; flex-direction: column-reverse; gap: 10px; padding: 20px; background: var(--dark-panel); border-radius: 12px; margin: 16px 0; }
   .hex-line { display: flex; align-items: center; gap: 12px; }
   .hex-bars { flex: 1; display: flex; gap: 6px; height: 10px; }
   .hex-bar { flex: 1; border-radius: 3px; }
-  .c-yang { background: #ff6b4a; }
-  .c-yin { background: #4aa8ff; }
-  .c-old { background: #c77dff; }
+  .c-yang { background: var(--red-yang); }
+  .c-yin { background: var(--blue-yin); }
+  .c-old { background: var(--purple-change); }
 
-  .ai-btn { width: 100%; background: transparent; border: 1px solid var(--gold-dim); border-radius: 10px; padding: 16px; color: var(--gold); cursor: pointer; letter-spacing: 4px; }
+  .ai-btn { width: 100%; background: transparent; border: 1px solid var(--gold-dim); border-radius: 10px; padding: 16px; color: var(--gold); cursor: pointer; letter-spacing: 4px; transition: 0.3s; }
+  .ai-btn:hover:not(:disabled) { border-color: var(--gold); background: rgba(212,175,55,0.05); }
+
   .ai-output { background: var(--dark-panel); border: 1px solid var(--dark-border); border-radius: 12px; padding: 24px; margin-top: 16px; display: none; line-height: 2; }
-
   .ai-section { margin-bottom: 20px; }
-  .ai-section-title { font-size: 13px; color: var(--gold); border-bottom: 1px solid var(--dark-border); margin-bottom: 10px; padding-bottom: 5px; }
+  .ai-section-title { font-size: 13px; color: var(--gold); border-bottom: 1px solid var(--dark-border); margin-bottom: 10px; padding-bottom: 5px; letter-spacing: 2px; }
+  .ai-text { font-size: 14px; color: #a89060; }
 </style>
 </head>
 <body>
@@ -88,7 +89,7 @@
 
   <div class="card">
     <div class="card-title">☯ 心中所求</div>
-    <textarea class="question-input" id="questionInput" placeholder="輸入求問之事..."></textarea>
+    <textarea class="question-input" id="questionInput" placeholder="請在此輸入您想請示的事情..."></textarea>
   </div>
 
   <div class="card">
@@ -102,7 +103,7 @@
   <div class="card" id="hexCard" style="display:none;">
     <div class="card-title">☰ 卦象呈現</div>
     <div class="hexagram-visual" id="hexVisual"></div>
-    <button class="ai-btn" id="aiBtn" onclick="summon()">✦ 召喚玄機解析</button>
+    <button class="ai-btn" id="aiBtn" onclick="summon()">✦ 召喚玄機深度解析</button>
   </div>
 
   <div class="ai-output" id="aiOutput"></div>
@@ -110,23 +111,31 @@
 
 <script>
 let lines = [];
+
 function toss() {
   if(lines.length >= 6) return;
-  const q = document.getElementById('questionInput').value;
-  if(!q) { alert("請先輸入問題"); return; }
+  const q = document.getElementById('questionInput').value.trim();
+  if(!q) { alert("請先寫下您的問題。"); return; }
 
   let heads = 0;
   for(let i=0; i<3; i++) if(Math.random() > 0.5) heads++;
   
+  // 記錄爻象
   let type = heads===3?'old-yang':(heads===2?'yang':(heads===1?'yin':'old-yin'));
   lines.push(type);
   
-  document.getElementById('status').innerText = `已完成第 ${lines.length} 爻`;
+  // 顯示硬幣結果
+  document.getElementById('c1').innerText = Math.random() > 0.5 ? '正' : '反';
+  document.getElementById('c2').innerText = Math.random() > 0.5 ? '正' : '反';
+  document.getElementById('c3').innerText = Math.random() > 0.5 ? '正' : '反';
+  
+  document.getElementById('status').innerText = `已完成第 ${lines.length} 爻能量感應`;
   render();
   
   if(lines.length === 6) {
       document.getElementById('hexCard').style.display = 'block';
       document.getElementById('tossBtn').disabled = true;
+      document.getElementById('tossBtn').innerText = '✦ 六爻已成';
   }
 }
 
@@ -137,12 +146,12 @@ function render() {
     const bars = document.createElement('div'); bars.className = 'hex-bars';
     const isYang = l.includes('yang');
     const isOld = l.includes('old');
-    const color = isOld ? 'c-old' : (isYang ? 'c-yang' : 'c-yin');
+    const colorClass = isOld ? 'c-old' : (isYang ? 'c-yang' : 'c-yin');
     
     if(isYang) {
-        bars.innerHTML = `<div class="hex-bar ${color}"></div>`;
+        bars.innerHTML = `<div class="hex-bar ${colorClass}"></div>`;
     } else {
-        bars.innerHTML = `<div class="hex-bar ${color}" style="flex:0.45"></div><div style="flex:0.1"></div><div class="hex-bar ${color}" style="flex:0.45"></div>`;
+        bars.innerHTML = `<div class="hex-bar ${colorClass}" style="flex:0.46"></div><div style="flex:0.08"></div><div class="hex-bar ${colorClass}" style="flex:0.46"></div>`;
     }
     row.appendChild(bars); v.appendChild(row);
   });
@@ -152,27 +161,44 @@ function summon() {
   const q = document.getElementById('questionInput').value;
   const out = document.getElementById('aiOutput');
   out.style.display = 'block';
-  out.innerHTML = "正在感應卦象...";
+  out.innerHTML = "<div style='text-align:center; color:var(--gold-dim);'>正在撥雲見日，感應卦象中...</div>";
   
   setTimeout(() => {
-    const yang = lines.filter(l => l.includes('yang')).length;
-    const prob = Math.floor((yang * 15) + (Math.random() * 10));
+    // 核心邏輯：計算陽爻與動爻
+    const yangCount = lines.filter(l => l.includes('yang')).length;
+    const changeCount = lines.filter(l => l.includes('old')).length;
+    const prob = Math.floor((yangCount * 14) + (Math.random() * 12) + 5);
     
-    // 這裡修復了「亂碼」問題，直接輸出純文字
+    // 分流情境判斷
+    let type = "通用";
+    if(/情|愛|他|她/.test(q)) type = "感情";
+    if(/錢|工作|事業|職/.test(q)) type = "事業";
+
+    let scenario = "";
+    if(type === "感情") {
+        scenario = "關於這段緣分，目前處於「陰陽交替」的階段。對方的態度可能還在觀望，建議給彼此一點空間，不要逼得太緊。";
+    } else if(type === "事業") {
+        scenario = "事業方面，目前適合「守成」而非「進攻」。卦象顯示雖然有機會，但外在環境還不夠穩定，再觀察兩週會更明朗。";
+    } else {
+        scenario = "您求問的事，目前天時已有，地利尚缺。事情會朝向正確的方向發展，但速度會比您預想的慢一些。";
+  }
+
+    // 重新編排結構，移除所有會導致亂碼的 HTML 標籤
     const sections = [
-        { t: "長者斷語", c: `此事目前阻力較大，需做好心理準備。成事機率約 ${prob}%。` },
-        { t: "情境感應", c: `針對「${q}」，卦象顯示目前正處於「陰陽交替」之時。若是問感覺，代表對方尚在猶豫；若是問事，則代表目前仍有未挑明的障礙。` },
-        { t: "長者叮嚀", c: "莫急、莫慌。這兩天可以多喝茶靜心，好的答案往往在放鬆時出現。" }
+        { t: "✦ 長者斷語", c: `此事目前局勢平穩，仍需耐心等待。成事機率約 ${prob > 98 ? 98 : prob}%。` },
+        { t: "✦ 情境感應", c: scenario },
+        { t: "✦ 易理分析", c: `卦中陽氣佔 ${yangCount} 分，變爻出現 ${changeCount} 處。這代表「變數」依然存在，保持平常心是化解變數最好的方法。` },
+        { t: "✦ 長者叮嚀", c: "心誠則靈。這幾天請多讓自己休息，好的決定往往在心安靜時才會出現。" }
     ];
     
     out.innerHTML = sections.map(s => `
         <div class="ai-section">
             <div class="ai-section-title">${s.t}</div>
-            <div style="font-size:14px; color:#a89060;">${s.c}</div>
+            <div class="ai-text">${s.c}</div>
         </div>
     `).join('');
-    out.scrollIntoView({behavior:'smooth'});
-  }, 1000);
+    out.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 1200);
 }
 </script>
 
